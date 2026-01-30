@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <ul>
+    {% for w in listaproduktowzkategorii %}
+        <li>
+            {% if kategoria == "miesa" %}
+                <a href="{% url 'szczegolymiesa' w.id %}">
+                    <strong>{{ w.nazwa }}</strong>
+                </a>
+            {% endif %}
+            </li>
+    {% endfor %}
+</ul>
+
+<p>Cofnij do kategorii <a href="/sklep">sklep</a></p>
+
+</body>
+</html>
