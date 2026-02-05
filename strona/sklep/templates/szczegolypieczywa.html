@@ -2,18 +2,18 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>{{ produkt.nazwa }} - Szczegóły</title>
+    <title>{{ produkt.nazwa }} - Piekarnia</title>
     <style>
         body { 
             font-family: 'Segoe UI', sans-serif; 
-            background-color: #f8f9fa; 
+            background-color: #fffaf0; /* Cieplejszy, kremowy kolor tła */
             display: flex; 
             flex-direction: column; 
             align-items: center; 
             padding: 50px; 
         }
 
-        h1 { color: #2c3e50; margin-bottom: 30px; }
+        h1 { color: #5d4037; margin-bottom: 30px; }
 
         .product-card {
             background: white;
@@ -23,19 +23,19 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             width: 100%;
             max-width: 400px;
-            border: 2px solid #2ecc71;
+            border: 2px solid #d4a373; /* Kolor skórki chleba */
         }
 
         .product-info {
             font-size: 1.1em;
-            color: #34495e;
+            color: #5d4037;
             margin: 10px 0;
             line-height: 1.6;
         }
 
         .price {
             font-size: 1.5em;
-            color: #27ae60;
+            color: #a0522d; /* Brązowy kolor ceny */
             font-weight: bold;
             margin: 15px 0;
         }
@@ -43,17 +43,15 @@
         .back-link {
             margin-top: 30px;
             text-decoration: none;
-            color: #7f8c8d;
+            color: #8d6e63;
             font-weight: bold;
             transition: color 0.3s;
         }
 
-        .back-link:hover {
-            color: #2c3e50;
-        }
+        .back-link:hover { color: #5d4037; }
 
         .emoji-large {
-            font-size: 3em;
+            font-size: 4em;
             display: block;
             margin-bottom: 20px;
         }
@@ -61,21 +59,24 @@
 </head>
 <body>
 
-    <h1>Szczegóły produktu</h1>
+    <h1>Karta Produktu: Piekarnia</h1>
 
     <div class="product-card">
-        <span class="emoji-large">🥩</span>
+        <span class="emoji-large">🥖</span>
         
-        <strong><div style="font-size: 1.8em; color: #2c3e50; margin-bottom: 10px;">{{ produkt.nazwa }}</div></strong>
+        <strong><div style="font-size: 1.8em; color: #5d4037; margin-bottom: 10px;">{{ produkt.nazwa }}</div></strong>
         
         <div class="product-info">
             <p class="price">Cena: {{ produkt.cena }} zł</p>
             <p><strong>BIO:</strong> {{ produkt.czy_bio|yesno:"Tak,Nie" }}</p>
-            <p><strong>Rodzaj:</strong> {{ produkt.rodzaj }}</p>
+            <p><strong>Typ:</strong> {{ produkt.rodzaj }}</p>
+            <p style="font-style: italic; color: #8d6e63;">Świeżo pieczone każdego ranka!</p>
         </div>
     </div>
 
-    <a href="{% url 'sklep' %}" class="back-link">⬅ Wróć do wyboru kategorii</a>
+    <a href="{% url 'listaproduktowzkategorii' 'pieczywo' %}" class="back-link">
+        ⬅ Wróć do listy pieczywa
+    </a>
 
 </body>
 </html>

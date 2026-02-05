@@ -1,20 +1,92 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Produkty w kategorii: {{ kategoria }}</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #f8f9fa; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            padding: 50px 20px; 
+            margin: 0;
+        }
+        h1 { color: #2c3e50; margin-bottom: 30px; text-transform: capitalize; text-align: center; }
+        .products-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
+            width: 100%;
+            max-width: 1100px;
+        }
+        .product-link { text-decoration: none; color: inherit; display: flex; }
+        .product-box {
+            background: white; padding: 25px; text-align: center; border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08); transition: all 0.2s;
+            border: 2px solid transparent; display: flex; flex-direction: column;
+            width: 100%; min-height: 200px;
+        }
+        .product-box:hover {
+            transform: translateY(-8px); border-color: #27ae60;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        .product-icon { font-size: 3em; margin-bottom: 15px; display: block; }
+        .product-name {
+            font-size: 1.2em; color: #2c3e50; font-weight: 600; margin-bottom: 20px;
+            flex-grow: 1; display: flex; align-items: center; justify-content: center;
+        }
+        .category-tag {
+            display: block; padding: 10px 15px; background: #e8f5e9; color: #27ae60;
+            border-radius: 10px; font-size: 0.85em; font-weight: bold; transition: background 0.2s;
+        }
+        .product-box:hover .category-tag { background: #27ae60; color: white; }
+        .back-link {
+            margin-top: 50px; text-decoration: none; color: #7f8c8d; font-weight: bold;
+            padding: 10px 20px; border: 1px solid #ddd; border-radius: 8px; transition: all 0.2s;
+        }
+        .back-link:hover { color: #2c3e50; background: #eee; }
+    </style>
+</head>
 <body>
-    <ul>
-    {% for w in listaproduktowzkategorii %}
-        <li>
-            {% if kategoria == "miesa" %}
-                <a href="{% url 'szczegolymiesa' w.id %}">
-                    <strong>{{ w.nazwa }}</strong>
-                </a>
-            {% endif %}
-            </li>
-    {% endfor %}
-</ul>
 
-<p>Cofnij do kategorii <a href="/sklep">sklep</a></p>
+    <h1>Produkty: {{ kategoria }}</h1>
+      
+    <div class="products-container">
+        {% for w in listaproduktowzkategorii %}
+            {# NAPRAWIONY LINK PONIŻEJ #}
+            <a href="{% if kategoria == 'miesa' %}{% url 'szczegolymiesa' w.id %}{% elif kategoria == 'pieczywo' %}{% url 'szczegolypieczywa' w.id %}{% elif kategoria == 'napoje' %}{% url 'szczegolynapoje' w.id %}{% else %}#{% endif %}" class="product-link">
+                
+                <div class="product-box">
+                    <span class="product-icon">
+                        {% if kategoria == "miesa" %}🥩
+                        {% elif kategoria == "pieczywo" %}🥖
+                        {% elif kategoria == "napoje" %}🥤
+                        {% elif kategoria == "owoce" %}🍎
+                        {% elif kategoria == "warzywa" %}🥦
+                        {% else %}📦{% endif %}
+                    </span>
+                    
+                    <div class="product-name">{{ w.nazwa }}</div>
+                    
+                    <span class="category-tag">
+                        {# NAPRAWIONY TEKST PRZYCISKU #}
+                        {% if kategoria == "miesa" or kategoria == "pieczywo" or kategoria == "napoje" %}
+                            Zobacz szczegóły
+                        {% else %}
+                            Szczegóły wkrótce
+                        {% endif %}
+                    </span>
+                </div>
+            </a>
+        {% empty %}
+            <p style="grid-column: 1/-1; text-align: center; color: #7f8c8d;">Brak produktów w tej kategorii.</p>
+        {% endfor %}
+    </div>
+
+    <a href="/sklep" class="back-link">⬅ Wróć do kategorii</a>
 
 </body>
 </html>

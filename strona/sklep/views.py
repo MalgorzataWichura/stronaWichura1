@@ -19,6 +19,17 @@ def szczegolymiesa(request, id):
     template = loader.get_template('szczegolymiesa.html')
     return HttpResponse(template.render(context,request))
     
+def szczegolypieczywa(request, id):
+    produkt = get_object_or_404(Pieczywo, id = id)
+    context = {"produkt":produkt}
+    template = loader.get_template('szczegolypieczywa.html')
+    return render(request, 'szczegolypieczywa.html', {'produkt': produkt})
+
+def szczegolynapoje(request, id):
+    produkt = get_object_or_404(Napoje, id=id)
+    context =  {"produkt":produkt}
+    template = loader.get_template('szczegolynapoje.html')
+    return render(request, 'szczegolynapoje.html', {'produkt': produkt})
 
 
-# Create your views here.
+
