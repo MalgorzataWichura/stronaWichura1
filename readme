@@ -1,1 +1,27 @@
-Strona na zajęcia
+🛒 Projekt Sklepu Internetowego 
+Prosty, funkcjonalny projekt sklepu internetowego zbudowany w oparciu o framework Django. Projekt obejmuje kategoryzację produktów, karty szczegółów produktów oraz dynamiczny system koszyka oparty na sesjach.
+
+Użyte narzędzia i technologie:
+
+* **Python 3.x** – Główny język programowania.
+* **Django Framework** – Silnik aplikacji (modele, widoki, system szablonów).
+* **HTML5 & CSS3** – Struktura i nowoczesny wygląd strony (stylizacja kart produktów, menu kategorii oraz pływającego przycisku koszyka).
+* **Django Sessions** – Mechanizm przechowywania danych koszyka bez konieczności logowania użytkownika.
+* **Git** – System kontroli wersji używany do śledzenia zmian w projekcie.
+
+🎓 Czego się nauczyłam?
+
+Podczas pracy nad tym plikiem i całym projektem opanowałam następujące zagadnienia:
+
+1.  **Mapowanie Relacyjne (ORM):** Tworzenie modeli danych w Django oraz pobieranie ich z bazy danych za pomocą `get_object_or_404` oraz `.objects.all()`.
+2.  **Dynamiczne Adresy URL:** Tworzenie skomplikowanych ścieżek URL, które przyjmują parametry (np. `id` produktu lub nazwę `kategorii`).
+3.  **Logika Koszyka w Sesjach:** Zrozumiałam, jak działają sesje użytkownika (`request.session`) i jak przechowywać w nich słowniki danych, aby produkty "nie znikały" po odświeżeniu strony.
+4.  **Dziedziczenie Szablonów (DRY - Don't Repeat Yourself):** Wykorzystanie pliku `base.html` jako szkieletu strony, co pozwala na zachowanie spójnego wyglądu (czcionki, przyciski) na wszystkich podstronach bez powielania kodu.
+5.  **Tagi i Filtry Django:** Używanie filtrów takich jak `|yesno` do formatowania danych z bazy oraz tagów `{% url %}`, `{% if %}` i `{% for %}` do budowania logiki bezpośrednio w HTML.
+6.  **Style CSS w Django:** Łączenie stylów CSS z dynamicznymi danymi, aby np. karty owoców wyglądały inaczej niż karty pieczywa.
+
+Jak uruchomić projekt?
+1. Sklonuj repozytorium.
+2. Zainstaluj Django: `pip install django`.
+3. Wykonaj migracje: `python manage.py migrate`.
+4. Uruchom serwer: `python manage.py runserver`.
