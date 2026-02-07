@@ -1,120 +1,134 @@
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-    <div class="top-cart-link">
-    <a href="{% url 'pokaz_koszyk' %}">
-        🛒 Koszyk ({% if request.session.koszyk %}{{ request.session.koszyk|length }}{% else %}0{% endif %})
-    </a>
-</div>
+{% extends "base.html" %}
 
-<style>
-    .top-cart-link {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        z-index: 1000;
-    }
-    .top-cart-link a {
-        background-color: #2ecc71;
-        color: white;
-        padding: 12px 20px;
-        text-decoration: none;
-        border-radius: 50px;
-        font-weight: bold;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        transition: transform 0.2s, background 0.2s;
-    }
-    .top-cart-link a:hover {
-        background-color: #27ae60;
-        transform: scale(1.05);
-    }
-</style>
-    <meta charset="UTF-8">
-    <title>Produkty w kategorii: {{ kategoria }}</title>
-    <style>
-        * { box-sizing: border-box; }
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: #f8f9fa; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            padding: 50px 20px; 
-            margin: 0;
-        }
-        h1 { color: #2c3e50; margin-bottom: 30px; text-transform: capitalize; text-align: center; }
-        .products-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 25px;
-            width: 100%;
-            max-width: 1100px;
-        }
-        .product-link { text-decoration: none; color: inherit; display: flex; }
-        .product-box {
-            background: white; padding: 25px; text-align: center; border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08); transition: all 0.2s;
-            border: 2px solid transparent; display: flex; flex-direction: column;
-            width: 100%; min-height: 200px;
-        }
-        .product-box:hover {
-            transform: translateY(-8px); border-color: #27ae60;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-        .product-icon { font-size: 3em; margin-bottom: 15px; display: block; }
-        .product-name {
-            font-size: 1.2em; color: #2c3e50; font-weight: 600; margin-bottom: 20px;
-            flex-grow: 1; display: flex; align-items: center; justify-content: center;
-        }
-        .category-tag {
-            display: block; padding: 10px 15px; background: #e8f5e9; color: #27ae60;
-            border-radius: 10px; font-size: 0.85em; font-weight: bold; transition: background 0.2s;
-        }
-        .product-box:hover .category-tag { background: #27ae60; color: white; }
-        .back-link {
-            margin-top: 50px; text-decoration: none; color: #7f8c8d; font-weight: bold;
-            padding: 10px 20px; border: 1px solid #ddd; border-radius: 8px; transition: all 0.2s;
-        }
-        .back-link:hover { color: #2c3e50; background: #eee; }
-    </style>
-</head>
-<body>
+{% block content %}
+    <div style="width: 100%; max-width: 1000px; margin-bottom: 20px; display: flex; gap: 10px; justify-content: center;">
+        <a href="{% url 'sklep' %}" class="btn-nav">🏠 Wróć do wyboru kategorii</a>
+        <a href="{% url 'zestawienie_bio' %}" class="btn-nav bio-link">🌿 Zobacz wszystkie BIO</a>
+    </div>
 
-    <h1>Produkty: {{ kategoria }}</h1>
-      
-    <div class="products-container">
-        {% for w in listaproduktowzkategorii %}
-            {# NAPRAWIONY LINK PONIŻEJ #}
-            <a href="{% if kategoria == 'miesa' %}{% url 'szczegolymiesa' w.id %}{% elif kategoria == 'pieczywo' %}{% url 'szczegolypieczywa' w.id %}{% elif kategoria == 'napoje' %}{% url 'szczegolynapoje' w.id %}{% else %}#{% endif %}" class="product-link">
-                
-                <div class="product-box">
-                    <span class="product-icon">
-                        {% if kategoria == "miesa" %}🥩
-                        {% elif kategoria == "pieczywo" %}🥖
-                        {% elif kategoria == "napoje" %}🥤
-                        {% elif kategoria == "owoce" %}🍎
-                        {% elif kategoria == "warzywa" %}🥦
-                        {% else %}📦{% endif %}
+    <h1 class="main-title">Kategoria: {{ kategoria|capfirst }}</h1>
+
+    <div class="filter-section">
+        <span>Filtruj produkty:</span>
+        <button class="filter-btn active" onclick="filterProducts('all')">Wszystkie</button>
+        <button class="filter-btn" onclick="filterProducts('bio')">Tylko BIO 🌿</button>
+        <button class="filter-btn" onclick="filterProducts('non-bio')">Bez BIO</button>
+    </div>
+
+    <div class="products-grid" id="productsContainer">
+        {% for p in listaproduktowzkategorii %}
+            <div class="product-item" data-bio="{{ p.czy_bio|yesno:'true,false' }}">
+                <div class="product-card">
+                    <span class="emoji">
+                        {% if kategoria == 'owoce' %}🍎{% elif kategoria == 'warzywa' %}🥦{% elif kategoria == 'napoje' %}🥤{% elif kategoria == 'miesa' %}🥩{% elif kategoria == 'pieczywo' %}🥖{% else %}📦{% endif %}
                     </span>
+                    <h3>{{ p.nazwa }}</h3>
+                    <p class="price">{{ p.cena }} zł</p>
                     
-                    <div class="product-name">{{ w.nazwa }}</div>
-                    
-                    <span class="category-tag">
-                        {# NAPRAWIONY TEKST PRZYCISKU #}
-                        {% if kategoria == "miesa" or kategoria == "pieczywo" or kategoria == "napoje" %}
-                            Zobacz szczegóły
-                        {% else %}
-                            Szczegóły wkrótce
-                        {% endif %}
-                    </span>
+                    {% if p.czy_bio %}
+                        <span class="bio-tag">BIO</span>
+                    {% endif %}
+
+                    <br><br>
+
+                    {% if kategoria == 'warzywa' %}
+                        <a href="{% url 'szczegolywarzywa' p.id %}" class="details-btn">Zobacz szczegóły</a>
+                    {% elif kategoria == 'owoce' %}
+                        <a href="{% url 'szczegolyowoce' p.id %}" class="details-btn">Zobacz szczegóły</a>
+                    {% elif kategoria == 'napoje' %}
+                        <a href="{% url 'szczegolynapoje' p.id %}" class="details-btn">Zobacz szczegóły</a>
+                    {% elif kategoria == 'miesa' %}
+                        <a href="{% url 'szczegolymiesa' p.id %}" class="details-btn">Zobacz szczegóły</a>
+                    {% elif kategoria == 'pieczywo' %}
+                        <a href="{% url 'szczegolypieczywa' p.id %}" class="details-btn">Zobacz szczegóły</a>
+                    {% endif %}
                 </div>
-            </a>
+            </div>
         {% empty %}
-            <p style="grid-column: 1/-1; text-align: center; color: #7f8c8d;">Brak produktów w tej kategorii.</p>
+            <p>Brak produktów w tej kategorii.</p>
         {% endfor %}
     </div>
 
-    <a href="/sklep" class="back-link">⬅ Wróć do kategorii</a>
+    <style>
+        /* Nawigacja góra */
+        .btn-nav {
+            display: inline-block;
+            text-decoration: none;
+            color: #7f8c8d;
+            font-weight: bold;
+            padding: 10px 20px;
+            border: 2px solid #dcdde1;
+            border-radius: 50px;
+            transition: all 0.3s;
+            background-color: white;
+            font-size: 0.9em;
+        }
+        .btn-nav:hover {
+            background-color: #f1f2f6;
+            transform: translateY(-2px);
+        }
+        .bio-link { border-color: #27ae60; color: #27ae60; }
+        .bio-link:hover { background-color: #e8f5e9; }
 
-</body>
-</html>
+        /* Style dla filtrów */
+        .main-title { color: #2c3e50; text-align: center; margin-bottom: 20px; }
+        .filter-section { margin-bottom: 30px; text-align: center; }
+        .filter-btn {
+            background: white; border: 2px solid #2ecc71; color: #2ecc71;
+            padding: 8px 20px; border-radius: 20px; cursor: pointer;
+            margin: 0 5px; font-weight: bold; transition: 0.3s;
+        }
+        .filter-btn.active, .filter-btn:hover { background: #2ecc71; color: white; }
+
+        /* Układ siatki */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px; width: 100%; max-width: 1000px;
+        }
+
+        .product-card {
+            background: white; padding: 25px; border-radius: 15px;
+            text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .product-card:hover { transform: scale(1.02); }
+
+        .price { font-weight: bold; color: #27ae60; font-size: 1.2em; }
+        .bio-tag {
+            background: #e8f5e9; color: #2e7d32; padding: 4px 12px;
+            border-radius: 10px; font-size: 0.75em; font-weight: bold;
+            text-transform: uppercase;
+        }
+        .emoji { font-size: 2.5em; display: block; margin-bottom: 10px; }
+
+        .details-btn {
+            display: inline-block; margin-top: 15px; color: #3498db;
+            text-decoration: none; font-weight: bold;
+        }
+        .details-btn:hover { text-decoration: underline; }
+    </style>
+
+    <script>
+        function filterProducts(type) {
+            const products = document.querySelectorAll('.product-item');
+            const buttons = document.querySelectorAll('.filter-btn');
+
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            products.forEach(product => {
+                const isBio = product.getAttribute('data-bio') === 'true';
+                if (type === 'all') {
+                    product.style.display = 'block';
+                } else if (type === 'bio' && isBio) {
+                    product.style.display = 'block';
+                } else if (type === 'non-bio' && !isBio) {
+                    product.style.display = 'block';
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Strefa BIO - Produkty Ekologiczne{% endblock %}
+
+{% block content %}
+    <div style="width: 100%; max-width: 1000px; margin-bottom: 20px;">
+        <a href="{% url 'sklep' %}" class="btn-back-main">🏠 Wróć do sklepu</a>
+    </div>
+
+    <h1 style="color: #27ae60;">🌿 Nasze produkty BIO</h1>
+    <p>Zestawienie wszystkich produktów ekologicznych dostępnych w naszym sklepie.</p>
+
+    <div class="bio-container">
+        {% if warzywa %}
+            <h2 class="category-header">🥦 Warzywa BIO</h2>
+            <div class="bio-grid">
+                {% for p in warzywa %}
+                    <div class="bio-item">
+                        <strong>{{ p.nazwa }}</strong> - {{ p.cena }} zł
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if owoce %}
+            <h2 class="category-header">🍎 Owoce BIO</h2>
+            <div class="bio-grid">
+                {% for p in owoce %}
+                    <div class="bio-item">
+                        <strong>{{ p.nazwa }}</strong> - {{ p.cena }} zł
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if napoje %}
+            <h2 class="category-header">🥤 Napoje BIO</h2>
+            <div class="bio-grid">
+                {% for p in napoje %}
+                    <div class="bio-item">
+                        <strong>{{ p.nazwa }}</strong> - {{ p.cena }} zł
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <style>
+        .category-header {
+            background-color: #e8f5e9;
+            padding: 10px;
+            border-radius: 8px;
+            color: #2e7d32;
+            margin-top: 30px;
+        }
+        .bio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .bio-item {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 5px solid #27ae60;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .btn-back-main {
+            display: inline-block;
+            text-decoration: none;
+            color: #7f8c8d;
+            font-weight: bold;
+            padding: 10px 15px;
+            border: 1px solid #dcdde1;
+            border-radius: 8px;
+            background-color: white;
+        }
+    </style>
+{% endblock %}

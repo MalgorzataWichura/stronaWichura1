@@ -12,4 +12,7 @@ urlpatterns = [
     path('koszyk/', views.pokaz_koszyk, name='pokaz_koszyk'),
     path('koszyk/dodaj/<str:kategoria>/<int:id>/', views.dodaj_do_koszyka, name='dodaj_do_koszyka'),
     path('koszyk/usun/<str:klucz>/', views.usun_z_koszyka, name='usun_z_koszyka'),
+    path('zestawienie-bio/', views.zestawienie_bio, name='zestawienie_bio'),
+    path('koszyk/zwieksz/<str:klucz>/', views.zwieksz_ilosc, name='zwieksz_ilosc'),
+    path('koszyk/zmniejsz/<str:klucz>/', views.zmniejsz_ilosc, name='zmniejsz_ilosc'),
 ]
