@@ -1,27 +1,31 @@
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <title>Mój Sklep - Kategorie</title>
+{% extends "base.html" %}
+
+{% block content %}
+    <h1 class="main-title">🛒 Kategorie zakupów</h1>
+      
+    <div class="menu-container">
+        <a href="{% url 'listaproduktowzkategorii' 'warzywa' %}" class="kategoria-box">
+            <span class="emoji">🥦</span> Warzywa
+        </a>
+        <a href="{% url 'listaproduktowzkategorii' 'owoce' %}" class="kategoria-box">
+            <span class="emoji">🍎</span> Owoce
+        </a>
+        <a href="{% url 'listaproduktowzkategorii' 'napoje' %}" class="kategoria-box">
+            <span class="emoji">🥤</span> Napoje
+        </a>
+        <a href="{% url 'listaproduktowzkategorii' 'miesa' %}" class="kategoria-box">
+            <span class="emoji">🥩</span> Mięsa
+        </a>
+        <a href="{% url 'listaproduktowzkategorii' 'pieczywo' %}" class="kategoria-box">
+            <span class="emoji">🥖</span> Pieczywo
+        </a>
+    </div>
+
     <style>
-        /* Dodajemy box-sizing, żeby padding nie rozwalał wymiarów */
-        * { box-sizing: border-box; }
-
-        body { 
-            font-family: 'Segoe UI', sans-serif; 
-            background-color: #f8f9fa; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            padding: 50px; 
-            margin: 0;
-        }
-
-        h1 { color: #2c3e50; margin-bottom: 30px; }
+        .main-title { color: #2c3e50; margin-bottom: 30px; text-align: center; }
         
         .menu-container {
             display: grid;
-            /* auto-fill lepiej radzi sobie z mniejszą liczbą kafelków */
             grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
             gap: 20px;
             width: 100%;
@@ -37,56 +41,19 @@
             text-decoration: none;
             color: #2c3e50;
             font-weight: bold;
-            font-size: 1.1em;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-            /* Flex wewnątrz kafelka, żeby emoji i tekst były idealnie na środku */
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            transition: all 0.3s;
         }
 
         .kategoria-box:hover {
-            transform: translateY(-5px);
             background: #27ae60;
             color: white;
-            border-color: #2ecc71;
-            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.3);
+            transform: translateY(-5px);
         }
 
-        .emoji { 
-            font-size: 2.5em; 
-            display: block; 
-            margin-bottom: 10px; 
-        }
+        .emoji { font-size: 2.5em; margin-bottom: 10px; }
     </style>
-</head>
-<body>
-
-    <h1>🛒 Kategorie zakupów</h1>
-      
-    <div class="menu-container">
-        <a href="{% url 'listaproduktowzkategorii' 'warzywa' %}" class="kategoria-box">
-            <span class="emoji">🥦</span> Warzywa
-        </a>
-
-        <a href="{% url 'listaproduktowzkategorii' 'owoce' %}" class="kategoria-box">
-            <span class="emoji">🍎</span> Owoce
-        </a>
-
-        <a href="{% url 'listaproduktowzkategorii' 'napoje' %}" class="kategoria-box">
-            <span class="emoji">🥤</span> Napoje
-        </a>
-
-        <a href="{% url 'listaproduktowzkategorii' 'miesa' %}" class="kategoria-box">
-            <span class="emoji">🥩</span> Mięsa
-        </a>
-
-        <a href="{% url 'listaproduktowzkategorii' 'pieczywo' %}" class="kategoria-box">
-            <span class="emoji">🥖</span> Pieczywo
-        </a>
-    </div>
-
-</body>
-</html>
+{% endblock %}

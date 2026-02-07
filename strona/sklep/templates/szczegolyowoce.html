@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ produkt.nazwa }} - Zieleniak</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #f1f8e9; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            padding: 50px; 
+        }
+
+        h1 { color: #2e7d32; margin-bottom: 30px; }
+
+        .product-card {
+            background: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            width: 100%;
+            max-width: 400px;
+            border: 3px solid #81c784; 
+        }
+
+        .product-info {
+            font-size: 1.1em;
+            color: #33691e;
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        .price {
+            font-size: 1.8em;
+            color: #ef6c00; 
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin: 5px;
+        }
+
+        .tag-bio { background-color: #c8e6c9; color: #2e7d32; }
+        .tag-dried { background-color: #ffe0b2; color: #e65100; }
+
+        .back-link {
+            margin-top: 30px;
+            text-decoration: none;
+            color: #689f38;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover { color: #33691e; }
+
+        .emoji-large {
+            font-size: 5em;
+            display: block;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Karta Produktu: Owoce</h1>
+
+    <div class="product-card">
+        <span class="emoji-large">
+            {% if produkt.czy_suszone %} 🍇 {% else %} 🍎 {% endif %}
+        </span>
+        
+        <div style="font-size: 2em; color: #1b5e20; margin-bottom: 10px; font-weight: bold;">
+            {{ produkt.nazwa }}
+        </div>
+        
+        <div class="product-info">
+            <p class="price">{{ produkt.cena }} zł</p>
+            
+            <div style="margin-bottom: 20px;">
+                <span class="tag tag-bio">BIO: {{ produkt.czy_bio|yesno:"Tak,Nie" }}</span>
+                {% if produkt.czy_suszone %}
+                    <span class="tag tag-dried">Owoc suszony</span>
+                {% else %}
+                    <span class="tag tag-bio" style="background-color: #e3f2fd; color: #1565c0;">Świeży owoc</span>
+                {% endif %}
+            </div>
+
+            <p style="font-style: italic; color: #757575;">Najlepsza jakość prosto z sadu!</p>
+        </div>
+    </div>
+
+    <a href="{% url 'sklep' 'owoce' %}" class="back-link">⬅ Wróć do sekcji owoców</a>
+    <a href="{% url 'dodaj_do_koszyka' kategoria produkt.id %}" class="btn-add">
+    🛒 Dodaj do koszyka
+</a>
+
+<style>
+    .btn-add {
+        display: inline-block;
+        background-color: #27ae60;
+        color: white;
+        padding: 12px 25px;
+        text-decoration: none;
+        border-radius: 30px;
+        font-weight: bold;
+        margin-top: 20px;
+        transition: background 0.3s;
+    }
+    .btn-add:hover { background-color: #2ecc71; }
+</style>
+
+</body>
+</html>

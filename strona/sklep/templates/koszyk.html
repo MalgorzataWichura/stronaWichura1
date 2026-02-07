@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Twój Koszyk</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f4f7f6; padding: 40px; }
+        .cart-wrapper { max-width: 800px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; border-bottom: 2px solid #eee; padding-bottom: 15px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th { text-align: left; color: #7f8c8d; padding: 10px; }
+        td { padding: 15px; border-bottom: 1px solid #eee; }
+        .price { font-weight: bold; color: #27ae60; }
+        .btn-remove { color: #e74c3c; text-decoration: none; font-size: 0.9em; }
+        .total-section { text-align: right; font-size: 1.4em; margin-top: 20px; }
+        .btn-back { display: inline-block; margin-top: 20px; color: #3498db; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+<div class="cart-wrapper">
+    <h1>🛒 Twój Koszyk</h1>
+
+    {% if koszyk %}
+    <table>
+        <thead>
+            <tr>
+                <th>Produkt</th>
+                <th>Cena</th>
+                <th>Ilość</th>
+                <th>Razem</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for klucz, item in koszyk.items %}
+            <tr>
+                <td><strong>{{ item.nazwa }}</strong></td>
+                <td class="price">{{ item.cena }} zł</td>
+                <td>x {{ item.ilosc }}</td>
+                <td class="price">{% widthratio item.cena 1 item.ilosc %} zł</td>
+                <td><a href="{% url 'usun_z_koszyka' klucz %}" class="btn-remove">Usuń</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="total-section">
+        Suma: <strong>{{ suma }} zł</strong>
+    </div>
+    {% else %}
+    <p>Twój koszyk jest obecnie pusty. Czas na zakupy!</p>
+    {% endif %}
+
+    <a href="{% url 'sklep' %}" class="btn-back">⬅ Wróć do sklepu</a>
+</div>
+
+</body>
+</html>

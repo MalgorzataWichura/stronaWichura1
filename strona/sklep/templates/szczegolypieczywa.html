@@ -77,6 +77,24 @@
     <a href="{% url 'listaproduktowzkategorii' 'pieczywo' %}" class="back-link">
         ⬅ Wróć do listy pieczywa
     </a>
+    <a href="{% url 'dodaj_do_koszyka' kategoria produkt.id %}" class="btn-add">
+    🛒 Dodaj do koszyka
+</a>
+
+<style>
+    .btn-add {
+        display: inline-block;
+        background-color: #27ae60;
+        color: white;
+        padding: 12px 25px;
+        text-decoration: none;
+        border-radius: 30px;
+        font-weight: bold;
+        margin-top: 20px;
+        transition: background 0.3s;
+    }
+    .btn-add:hover { background-color: #2ecc71; }
+</style>
 
 </body>
 </html>
